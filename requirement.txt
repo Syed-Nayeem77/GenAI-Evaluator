@@ -1,3 +1,5 @@
-datasets
 transformers
-torch
+bert_score
+evaluate
+nltk
+scikit-learn
