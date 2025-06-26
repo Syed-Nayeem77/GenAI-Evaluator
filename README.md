@@ -16,4 +16,4 @@ python main.py
 
 Evaluation Results:
 BLEU: 0.82
-BERTScore: {'precision': 0.89, 'recall': 0.91, 'f1': 0.90}
+{'precision': 0.9418, 'recall': 0.9393, 'f1': 0.9406}
