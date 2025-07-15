@@ -1,8 +1,15 @@
 from typing import Dict, Any
 import numpy as np
-from sklearn.metrics import precision_score, recall_score, f1_score
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score
+)
 
 class EvaluationMetrics:
+    """Calculates various evaluation metrics"""
+    
     @staticmethod
     def calculate_classification_metrics(
         y_true: np.ndarray,
@@ -10,20 +17,19 @@ class EvaluationMetrics:
         average: str = 'weighted'
     ) -> Dict[str, float]:
         return {
+            'accuracy': accuracy_score(y_true, y_pred),
             'precision': precision_score(y_true, y_pred, average=average),
             'recall': recall_score(y_true, y_pred, average=average),
-            'f1_score': f1_score(y_true, y_pred, average=average),
-            'accuracy': np.mean(y_true == y_pred)
+            'f1': f1_score(y_true, y_pred, average=average)
         }
     
     @staticmethod
-    def calculate_llm_metrics(
-        references: list,
-        predictions: list
+    def calculate_similarity(
+        reference: str,
+        prediction: str
     ) -> Dict[str, float]:
-        # Implement your custom LLM evaluation metrics here
+        # Placeholder for actual similarity calculation
         return {
-            'semantic_similarity': 0.0,  # Placeholder
-            'factual_accuracy': 0.0,     # Placeholder
-            'fluency_score': 0.0         # Placeholder
+            'cosine_similarity': 0.0,
+            'jaccard_similarity': 0.0
         }
