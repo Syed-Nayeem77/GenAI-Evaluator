@@ -1,0 +1,17 @@
+# Create this using:
+from sklearn.feature_extraction.text import CountVectorizer
+import joblib
+
+# Sample tokenizer
+tokenizer = CountVectorizer(
+    max_features=10000,
+    lowercase=True,
+    stop_words='english'
+)
+
+# Fit on sample data
+sample_texts = ["This is sample text", "Another example text"]
+tokenizer.fit(sample_texts)
+
+# Save
+joblib.dump(tokenizer, "models/evaluator/v1/tokenizer/tokenizer.pkl")
