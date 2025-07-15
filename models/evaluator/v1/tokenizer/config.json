@@ -1,0 +1,9 @@
+{
+  "tokenizer_type": "word_level",
+  "vocab_size": 10000,
+  "lowercase": true,
+  "special_tokens": {
+    "unk_token": "[UNK]",
+    "pad_token": "[PAD]"
+  }
+}
