@@ -1,0 +1,29 @@
+# Git
+.git/
+.gitignore
+
+# Environment
+.env
+.venv
+venv/
+
+# Logs
+logs/
+*.log
+
+# Data
+data/raw/
+data/processed/
+data/outputs/
+
+# Tests
+tests/
+.coverage
+htmlcov/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
