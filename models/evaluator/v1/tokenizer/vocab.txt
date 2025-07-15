@@ -1,0 +1,7 @@
+[PAD]
+[UNK]
+the
+and
+to
+...
+<rest of vocabulary>
