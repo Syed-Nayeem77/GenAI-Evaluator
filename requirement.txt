@@ -1,5 +1,0 @@
-transformers
-bert_score
-evaluate
-nltk
-scikit-learn
