@@ -1,0 +1,21 @@
+{
+  "model_version": "v1",
+  "training_date": "2023-07-20",
+  "algorithm": "RandomForestClassifier",
+  "performance_metrics": {
+    "accuracy": 0.92,
+    "precision": 0.91,
+    "recall": 0.93,
+    "f1": 0.92
+  },
+  "training_parameters": {
+    "n_estimators": 100,
+    "max_depth": 10,
+    "random_state": 42
+  },
+  "feature_list": [
+    "text_length",
+    "word_count",
+    "sentiment_score"
+  ]
+}
