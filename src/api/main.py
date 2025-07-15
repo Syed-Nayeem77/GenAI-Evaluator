@@ -1,18 +1,21 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from config.settings import settings
-from src.api.routers import evaluation, health
-from src.utils.logging import configure_logging
+from .routers import evaluation, health
+import logging
+from src.utils.logging import setup_logging
 
-configure_logging()
+setup_logging()
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title=settings.APP_NAME,
     version="1.0.0",
-    description="API for evaluating GenAI model outputs"
+    docs_url="/docs",
+    redoc_url="/redoc"
 )
 
-# CORS Configuration
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -22,10 +25,13 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(evaluation.router)
-app.include_router(health.router)
+app.include_router(evaluation.router, prefix="/api/v1")
+app.include_router(health.router, prefix="/api/v1")
 
 @app.on_event("startup")
-async def startup_event():
-    # Initialize model and other resources
-    pass
+async def startup():
+    logger.info("Starting up application...")
+
+@app.on_event("shutdown")
+async def shutdown():
+    logger.info("Shutting down application...")
