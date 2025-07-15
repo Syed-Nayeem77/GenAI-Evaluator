@@ -1,30 +1,28 @@
 import pandas as pd
 from pathlib import Path
-from typing import Optional
-from src.utils.logging import get_logger
+from typing import Optional, Union
+import json
+import logging
 
-logger = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 class DataIngestor:
-    def __init__(self, raw_data_dir: Path):
-        self.raw_data_dir = raw_data_dir
-        
-    def ingest_json(self, file_path: Path) -> Optional[pd.DataFrame]:
+    """Handles data ingestion from various file formats"""
+    
+    @staticmethod
+    def ingest(file_path: Union[str, Path]) -> Optional[pd.DataFrame]:
+        """Ingest data from file"""
+        file_path = Path(file_path)
         try:
-            logger.info(f"Ingesting JSON file: {file_path}")
-            df = pd.read_json(file_path, orient='records')
-            logger.info(f"Successfully ingested {len(df)} records")
-            return df
-        except Exception as e:
-            logger.error(f"Failed to ingest {file_path}: {str(e)}")
-            return None
-            
-    def ingest_csv(self, file_path: Path) -> Optional[pd.DataFrame]:
-        try:
-            logger.info(f"Ingesting CSV file: {file_path}")
-            df = pd.read_csv(file_path)
-            logger.info(f"Successfully ingested {len(df)} records")
-            return df
+            if file_path.suffix == '.csv':
+                return pd.read_csv(file_path)
+            elif file_path.suffix == '.json':
+                return pd.read_json(file_path, orient='records')
+            elif file_path.suffix == '.parquet':
+                return pd.read_parquet(file_path)
+            else:
+                logger.error(f"Unsupported file format: {file_path.suffix}")
+                return None
         except Exception as e:
             logger.error(f"Failed to ingest {file_path}: {str(e)}")
             return None
