@@ -1,0 +1,41 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements-dev.txt
+    - name: Run tests
+      run: |
+        pytest tests/ --cov=src --cov-report=xml
+    - name: Upload coverage
+      uses: codecov/codecov-action@v1
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Docker image
+      run: docker build -t genai-evaluator .
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
+    - name: Push Docker image
+      run: |
+        docker tag genai-evaluator ${{ secrets.DOCKER_HUB_USERNAME }}/genai-evaluator:latest
+        docker push ${{ secrets.DOCKER_HUB_USERNAME }}/genai-evaluator:latest
